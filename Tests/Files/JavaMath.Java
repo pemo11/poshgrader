@@ -1,0 +1,8 @@
+/**
+ * Musterabgabe
+ */
+
+ class JavaMath {
+
+
+ }
