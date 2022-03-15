@@ -22,7 +22,7 @@ function New-TestSubmission
 function Get-ExerciseFile
 {
     [CmdletBinding()]
-    param([String]$SubmissionPath, [String]$Exercise, [String]$Level="A")
+    param([String]$Exercise, [String]$Level="A")
     $XmlPath = $Config.gradingPlanPath
     $Ns = @{"sig"="urn:simpleGrader"}
     $XPathExpr = "//sig:task[@exercise='$Exercise' and @level='$Level']/files/file"

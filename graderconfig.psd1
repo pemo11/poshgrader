@@ -4,4 +4,5 @@
  javaPath="E:\\Java\\jdk-11.0.14+9\\bin\\java.exe"
  javaCPath="E:\\Java\\jdk-11.0.14+9\\bin\\javac.exe"
  moduleName="GP1"
+ semester="WS 21/22"
 }

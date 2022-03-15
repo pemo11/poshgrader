@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sig:GradeResults xmlns:sig="urn:simpleGrader">
+  <sig:GradeResult id="1">
+    <sig:Timestamp>15.03.22 20:10</sig:Timestamp>
+    <sig:Exercise>EA1</sig:Exercise>
+    <sig:Student>Bjarne Stroupstrup</sig:Student>
+    <sig:Filename>EA1_Bjarne_Stroupstrup.zip</sig:Filename>
+    <sig:GradeAction>Java-Compile</sig:GradeAction>
+    <sig:GradeResult>All systems on alert</sig:GradeResult>
+    <sig:GradePoints>-1</sig:GradePoints>
+  </sig:GradeResult>
+  <sig:GradeResult id="2">
+    <sig:Timestamp>15.03.22 20:10</sig:Timestamp>
+    <sig:Exercise>EA1</sig:Exercise>
+    <sig:Student>Bjarne Stroupstrup</sig:Student>
+    <sig:Filename>EA1_Bjarne_Stroupstrup.zip</sig:Filename>
+    <sig:GradeAction>Java-Compile</sig:GradeAction>
+    <sig:GradeResult>All systems on alert</sig:GradeResult>
+    <sig:GradePoints>-1</sig:GradePoints>
+  </sig:GradeResult>
+  <sig:GradeResult id="3">
+    <sig:Timestamp>15.03.22 20:10</sig:Timestamp>
+    <sig:Exercise>EA1</sig:Exercise>
+    <sig:Student>Bjarne Stroupstrup</sig:Student>
+    <sig:Filename>EA1_Bjarne_Stroupstrup.zip</sig:Filename>
+    <sig:GradeAction>Java-Compile</sig:GradeAction>
+    <sig:GradeResult>All systems on alert</sig:GradeResult>
+    <sig:GradePoints>-1</sig:GradePoints>
+  </sig:GradeResult>
+  <sig:GradeResult id="4">
+    <sig:Timestamp>15.03.22 20:10</sig:Timestamp>
+    <sig:Exercise>EA1</sig:Exercise>
+    <sig:Student>Bjarne Stroupstrup</sig:Student>
+    <sig:Filename>EA1_Bjarne_Stroupstrup.zip</sig:Filename>
+    <sig:GradeAction>Java-Compile</sig:GradeAction>
+    <sig:GradeResult>Lots of nasty errors</sig:GradeResult>
+    <sig:GradePoints>-2</sig:GradePoints>
+  </sig:GradeResult>
+</sig:GradeResults>

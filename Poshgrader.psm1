@@ -5,6 +5,9 @@
 
 using module ./PoshgraderClasses.psm1
 
+$Psd1Path = Join-Path -Path $PSScriptRoot -ChildPath "graderconfig.psd1"
+$Config = import-powershelldataFile -Path $Psd1Path
+
 $Psm1Path = Join-Path -Path $PSScriptRoot -ChildPath "JavaActions.psm1"
 Import-Module -Name $Psm1Path -Force
 
@@ -106,11 +109,25 @@ Invokes a single action from the grading plan
 function Invoke-Action
 {
     [CmdletBinding()]
-    param([String]$Path, [String]$Exercise, [String]$Level, [String]$ActionId)
-    switch ($ActionId)
+    param([String]$Path, [String]$ActionType)
+    $ModuleName = $Config.moduleName
+    $file = [SubmissionFile]::new($Path)
+    $Student = $file.Student
+    $Exercise = $file.Exercise
+
+    switch ($ActionType)
     {
         "java-compile" {
-            Invoke-Compile -Path $Path
+            # Create temp directory
+            $TempPath = Join-Path -Path $env:TEMP -ChildPath $ModuleName
+            $TempPath = Join-Path -Path $TempPath -ChildPath $Exercise
+            $TempPath = Join-Path -Path $TempPath -ChildPath $Student
+            if (!(Test-Path -Path $TempPath))
+            {
+                mkdir $TempPath -Force | Out-Null
+            }
+            $JavaPath = Join-Path -Path $TempPath -ChildPath (Split-Path -Path $Path -Leaf)
+            Invoke-Compile -JavaPath $JavaPath
             break;
         }
         "java-compare" {

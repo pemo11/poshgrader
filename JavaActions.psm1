@@ -3,6 +3,8 @@
  All Java Actions
 #>
 
+using namespace System.IO
+
 $Psd1Path = Join-Path -Path $PSScriptRoot -ChildPath "graderconfig.psd1"
 $Config = import-powershelldataFile -Path $Psd1Path
 
@@ -13,41 +15,28 @@ $Config = import-powershelldataFile -Path $Psd1Path
 function Invoke-Compile
 {
     [CmdletBinding()]
-    param([String]$Path)
+    param([String]$JavaPath)
+    $DirPath = Split-Path -Path $JavaPath
     $JavaCPath = $Config.JavaCPath
-    $ModuleName = $Config.ModuleName
-    # Create temp directory with student name
-    $TempPath = Join-Path -Path $env:TEMP -ChildPath $ModuleName
-    # Only the name without the exercise name (may be a little bit too complicated)
-    # $Student = (($Path -split "\\")[-2] -split "(\w*?)_(.*)")[2]
-    $Student = ($Path -split "\\")[-2]
-    $TempPath = Join-Path -Path $TempPath -ChildPath $Student
-    if (!(Test-Path -Path $TempPath))
-    {
-        mkdir $TempPath | Out-Null
-    }
-    # Copy Java file in temp dir
-    # Copy-Item -Path $Path -Destination $TempPath
-    $OutfilePath = Join-Path -Path $PSScriptRoot -ChildPath "Output1.txt"
-    $ErrorFilePath = Join-Path -Path $PSScriptRoot -ChildPath "Error1.txt"
-    $JavaArgs = Join-Path -Path $TempPath -ChildPath (Split-Path -Path $Path -Leaf)
+    $OutfilePath = Join-Path -Path $DirPath -ChildPath "Output1.txt"
+    $ErrorFilePath = Join-Path -Path $DirPath -ChildPath "Error1.txt"
+    $JavaArgs = $JavaPath
     $P = Start-Process -FilePath $JavaCPath -ArgumentList $JavaArgs -NoNewWindow `
      -RedirectStandardOutput $OutfilePath -RedirectStandardError $ErrorFilePath `
-     -WorkingDirectory $TempPath -Wait -PassThru
+     -WorkingDirectory $DirPath -Wait -PassThru
     if ($P.ExitCode -eq 0)
     {
-        $JavaClassPath = [System.IO.Path]::ChangeExtension($Path, ".class")
+        $JavaClassPath = [Path]::ChangeExtension($JavaPath, ".class")
         if (!(Test-Path -Path $JavaClassPath))
         {
             throw "!!! $JavaClassPath not found !!!"
         }
     }
     [PSCustomObject]@{
-        ExitCode = $P.ExitCode
-        OutputText = Get-Content -Path $OutfilePath
+        Points = $P.ExitCode -ge 0 ? 1 : -1
+        Message = Get-Content -Path $OutfilePath
         JavaClassPath = $JavaClassPath
     }
-
 }
 
 <#
@@ -70,7 +59,7 @@ function Invoke-Compare
     }
     $Result = Invoke-Java -Path $Result2.ClassPath
     [PSCustomObject]@{
-        ExitCode = $Result.ExitCode
-        CompareResult = $Result.ExitCode -eq 0
+        Points = $Result.ExitCode -ge 0 ? 1 : -1
+        Message = Get-Content -Path $OutfilePath
     }
 }

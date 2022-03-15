@@ -26,3 +26,4 @@ $planDic.Tests | Format-Table
 Get-GradingAction -Path $GradingPlanPath -Exercise "EA1" -Level "A"
 
 Get-GradingTest -Path $GradingPlanPath -Exercise "EA1" -Level "A"
+

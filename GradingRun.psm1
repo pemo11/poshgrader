@@ -28,9 +28,6 @@ function Invoke-GradeRun
     $gradeResultlist = @()
     $SubmissionPath = $Config.SubmissionPath
     $GradingplanPath = $Config.GradingPlanPath
-    $ModuleName = $Config.ModuleName
-    # Temp directory is already created - no need for a mkdir again
-    $TempPath = Join-Path -Path $env:TEMP -ChildPath $ModuleName
     $planDic = Get-Gradingplan -Path $GradingplanPath
     $submissionDic = Get-Submission -Path $SubmissionPath
     # $exerciseFiles = Get-SubmissionFile -Exercise $Exercise
@@ -55,10 +52,10 @@ function Invoke-GradeRun
                 Write-Verbose "*** Processing file $_ ***"
                 $action = $Actions.Where{$_.Type -eq "java-compile"}[0]
                 $javaFilePath = $_.FullName
-                # thanks to non greedy *?
-                $Student = (($_.FullName -split "\\")[-2] -split "(\w*?)_(.*)")[2]
-                $Result = Invoke-Action -Path $javaFilePath -Exercise $Exercise -Level $Level -Action $action.type
-                $gradeResultlist += [GradeResult]::new($Student, $Exercise, $Result.ExitCode, $Result.OutputText)
+                $dirName = ($_.DirectoryName -split "\\")[-1]
+                $Student = [SubmissionFile]::new($dirName).Student
+                $Result = Invoke-Action -Path $javaFilePath -ActionType $action.type
+                $gradeResultlist += [GradeResult]::new($Student, $Exercise, $_.Name, $Action.Type, $Result.Points, $Result.Message)
             }
       }
     }
